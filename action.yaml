@@ -13,4 +13,4 @@ runs:
   using: "composite"
   steps:
     - run: echo ${{ inputs.who-to-greet }}
-      shell: bash
+      shell: cmd
