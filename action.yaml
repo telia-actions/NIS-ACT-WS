@@ -12,7 +12,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: Write-Host(${{ inputs.who-to-greet }}).
+    - run: |
+      Write-Host(${{ inputs.who-to-greet }})
    #   shell: bash
    # - id: random-number-generator
    #   run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
