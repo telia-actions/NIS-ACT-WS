@@ -11,6 +11,10 @@ outputs:
     value: "123" #${{ steps.random-number-generator.outputs.random-number }}
 runs:
   using: "composite"
+  
+  env:
+      outputPath: \\10.75.8.30\GitHub
+      
   steps:
     -  run: |
           $msBuildPath = "C:\VisualStudio\MSBuild\Current\bin"
