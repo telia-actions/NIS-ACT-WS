@@ -1,5 +1,7 @@
 name: 'NIS.ACT WS'
 description: 'NIS.ACT webservices build and deploy'
+env:
+  outputPath: \\10.75.8.30\GitHub
 inputs:
   DeployOnBuild:  # id of input
     description: 'If false - only build, if true - build and deploy'
@@ -10,11 +12,7 @@ outputs:
     description: "Random number"
     value: "123" #${{ steps.random-number-generator.outputs.random-number }}
 runs:
-  using: "composite"
-  
-  env:
-      outputPath: \\10.75.8.30\GitHub
-      
+  using: "composite"     
   steps:
     -  run: |
           $msBuildPath = "C:\VisualStudio\MSBuild\Current\bin"
