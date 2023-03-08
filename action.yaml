@@ -20,13 +20,15 @@ runs:
           $oldPath = (Get-ItemProperty -Path $registryPath -Name PATH).path
           $newPath = "$oldpath;$msBuildPath"
           Set-ItemProperty -Path "$registryPath" -Name PATH -Value "$newPath"
+       shell: powershell   
           
-    - shell: cmd
-      run: |
+    -  run: |
           net use * ${{ env.outputPath }} ${{secrets.PASS}} /user:${{secrets.USERNAME}} /persistent:yes
+       shell: cmd   
         
     - uses: actions/checkout@v3
       
     - name: Publish
       run:         
           MSBuild /p:Configuration=SIT /p:DeployOnBuild=${{ inputs.DeployOnBuild }} /p:PublishProfile=SIT
+      shell: cmd    
