@@ -1,10 +1,10 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: 'NIS.ACT WS'
+description: 'NIS.ACT webservices build and deploy'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  DeployOnBuild:  # id of input
+    description: 'If false - only build, if true - build and deploy'
     required: true
-    default: 'World'
+    default: 'false'
 outputs:
   random-number:
     description: "Random number"
@@ -12,5 +12,19 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: echo ${{ inputs.who-to-greet }}
-      shell: cmd
+    -  run: |
+          $msBuildPath = "C:\VisualStudio\MSBuild\Current\bin"
+          $registryPath = "Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment"
+          $oldPath = (Get-ItemProperty -Path $registryPath -Name PATH).path
+          $newPath = "$oldpath;$msBuildPath"
+          Set-ItemProperty -Path "$registryPath" -Name PATH -Value "$newPath"
+          
+    - shell: cmd
+      run: |
+          net use * ${{ env.outputPath }} ${{secrets.PASS}} /user:${{secrets.USERNAME}} /persistent:yes
+        
+    - uses: actions/checkout@v3
+      
+    - name: Publish
+      run:         
+          MSBuild /p:Configuration=SIT /p:DeployOnBuild=${{ inputs.DeployOnBuild }} /p:PublishProfile=SIT
