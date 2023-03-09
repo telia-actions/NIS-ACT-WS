@@ -26,6 +26,14 @@ jobs:
       profile: ${{inputs.profile}}
     
     steps:
+    - name: Print variable if not empty
+      if: "${{ env.profile != '' }}"
+      run: echo Level value is ${{ env.profile }}
+
+    - name: Print message if empty
+      if: "${{ env.profile == '' }}"
+      run: echo profile value is empty
+      
     - name: Validate inputs
       if: ${inputs.deploy-on-build} == true && ${{env.profile}} == ""
       uses: actions/github-script@v3
