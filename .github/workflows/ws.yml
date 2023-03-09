@@ -44,11 +44,11 @@ jobs:
       run: echo deploy-on-build false ${{ env.deploy-on-build }}
       
     - name: Validate
-      if: "${{ env.profile == '' &&  env.deploy-on-build  == 'true' }}"  #${{ env.deploy-on-build  == 'true' }} 
+      if: ${{ env.profile == '' &&  env.deploy-on-build  == 'true' }}
       run: echo ${{ env.deploy-on-build  == 'true' }} ${{ env.profile == '' }}
       
     - name: Validate inputs
-      if: "${{ env.profile == '' &&  env.deploy-on-build  == 'true' }}"
+      if: ${{ env.profile == '' &&  env.deploy-on-build  == 'true' }}
       uses: actions/github-script@v3
       with:
         script: |
