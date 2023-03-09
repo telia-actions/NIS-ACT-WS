@@ -24,7 +24,7 @@ jobs:
     env:
       outputPath: \\10.75.8.30\GitHub\ws 
       profile: ${{inputs.profile}}
-      deploy-on-build: ${{inputs.profile}}
+      deploy-on-build: ${{inputs.deploy-on-build}}
     
     steps:
     - name: Print variable if not empty
