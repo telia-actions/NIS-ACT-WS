@@ -35,9 +35,13 @@ jobs:
       if: "${{ env.profile == '' }}"
       run: echo profile value is empty
       
-    - name: Print message deploy-on-build
+    - name: Print message deploy-on-build true
       if: ${{ env.deploy-on-build }} == true
       run: echo deploy-on-build true
+      
+    - name: Print message deploy-on-build false
+      if: ${{ env.deploy-on-build }} == false
+      run: echo deploy-on-build false ${{ env.deploy-on-build }}
       
     - name: Validate
       if: ${{ env.deploy-on-build == 'true' }}  
