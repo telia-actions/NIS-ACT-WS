@@ -1,0 +1,51 @@
+name: Build and deploy NIS.ACT web service
+
+on:
+  workflow_call:
+    inputs:
+      deploy-on-build:
+        required: true
+        type: boolean
+        default: false
+      profile:
+        required: false
+        type: string 
+      configuration:
+        required: true
+        type: string   
+        default: "debug"
+    secrets:
+      token:
+        required: true     
+jobs:
+  build-publish:
+    runs-on: [ec2, windows, medium]
+    
+    env:
+      outputPath: \\10.75.8.30\GitHub\ws 
+    
+    steps:
+    - name: Validate inputs
+      if: ${inputs.deploy-on-build} == true && ${{inputs.profile}} == ""
+      uses: actions/github-script@v3
+      with:
+        script: |
+            core.setFailed("Input parameter 'deploy-on-build' set true, but parameter 'profile' is empty")
+    - name: Set system environment path       
+      run: |
+          $msBuildPath = "C:\VisualStudio\MSBuild\Current\bin"
+          $registryPath = "Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment"
+          $oldPath = (Get-ItemProperty -Path $registryPath -Name PATH).path
+          $newPath = "$oldpath;$msBuildPath"
+          Set-ItemProperty -Path "$registryPath" -Name PATH -Value "$newPath"
+   
+    - name: Map drive
+      shell: cmd
+      run: |
+          net use * ${{ env.outputPath }} ${{secrets.PASS}} /user:${{secrets.USERNAME}} /persistent:yes
+        
+    - uses: actions/checkout@v3
+      
+    - name: Msbuild build/publish
+      run:         
+          MSBuild /p:Configuration=${{inputs.configuration}} /p:DeployOnBuild=${inputs.deploy-on-build} /p:PublishProfile=${{inputs.profile}}
