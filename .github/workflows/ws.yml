@@ -34,8 +34,12 @@ jobs:
       if: "${{ env.profile == '' }}"
       run: echo profile value is empty
       
+    - name: Print message deploy-on-build
+      if: ${inputs.deploy-on-build} == true
+      run: echo deploy-on-build true
+      
     - name: Validate inputs
-      if: ${inputs.deploy-on-build} == true && ${{env.profile}} == ""
+      if: ${inputs.deploy-on-build} == true && "${{ env.profile = '' }}"
       uses: actions/github-script@v3
       with:
         script: |
