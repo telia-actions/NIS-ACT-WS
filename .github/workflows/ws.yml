@@ -64,7 +64,7 @@ jobs:
     - name: Map drive
       shell: cmd
       run: |
-          net use * ${{ env.outputPath }} ${{secrets.PASS}} /user:${{secrets.USERNAME}} /persistent:yes
+          net use * ${{ env.outputPath }} ${{secrets.BUILD_PASS}} /user:${{secrets.BUILD_USERNAME}} /persistent:yes
         
     - uses: actions/checkout@v3
       
