@@ -35,7 +35,7 @@ jobs:
       run: echo profile value is empty
       
     - name: Print message deploy-on-build
-      if: ${inputs.deploy-on-build} == true
+      if: "${inputs.deploy-on-build} == true"
       run: echo deploy-on-build true
       
     - name: Validate inputs
