@@ -1,34 +1,19 @@
-name: 'NIS.ACT WS'
-description: 'NIS.ACT webservices build and deploy'
-env:
-  outputPath: \\10.75.8.30\GitHub
-inputs:
-  DeployOnBuild:  # id of input
-    description: 'If false - only build, if true - build and deploy'
-    required: true
-    default: 'false'
-outputs:
-  random-number:
-    description: "Random number"
-    value: "123" #${{ steps.random-number-generator.outputs.random-number }}
-runs:
-  using: "composite"     
-  steps:
-    -  run: |
-          $msBuildPath = "C:\VisualStudio\MSBuild\Current\bin"
-          $registryPath = "Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment"
-          $oldPath = (Get-ItemProperty -Path $registryPath -Name PATH).path
-          $newPath = "$oldpath;$msBuildPath"
-          Set-ItemProperty -Path "$registryPath" -Name PATH -Value "$newPath"
-       shell: powershell   
-          
-    -  run: |
-          net use * ${{ env.outputPath }} ${{secrets.PASS}} /user:${{secrets.USERNAME}} /persistent:yes
-       shell: cmd   
-        
-    - uses: actions/checkout@v3
-      
-    - name: Publish
-      run:         
-          MSBuild /p:Configuration=SIT /p:DeployOnBuild=${{ inputs.DeployOnBuild }} /p:PublishProfile=SIT
-      shell: cmd    
+name: Reusable workflow example
+
+on:
+  workflow_call:
+    inputs:
+      id:
+        required: true
+        type: string
+        default: "123"
+    secrets:
+      token:
+        required: true
+
+jobs:
+  triage:
+    runs-on: [ec2, windows, medium]
+    steps:
+    - shell: cmd
+      run: echo ${{ inputs.id }}
