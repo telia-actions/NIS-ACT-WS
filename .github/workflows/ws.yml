@@ -44,7 +44,7 @@ jobs:
       run: echo deploy-on-build false ${{ env.deploy-on-build }}
       
     - name: Validate
-      if: ${{ env.deploy-on-build  == 'true' }} && "${{ env.profile == '' }}"
+      if: ${{ env.deploy-on-build  == 'true' }} 
       run: echo ${{ env.deploy-on-build  == 'true' }} ${{ env.profile == '' }}
       
     - name: Validate inputs
