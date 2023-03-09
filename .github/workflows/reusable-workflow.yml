@@ -1,0 +1,19 @@
+name: Reusable workflow example
+
+on:
+  workflow_call:
+    inputs:
+      id:
+        required: true
+        type: string
+        default: "123"
+    secrets:
+      token:
+        required: true
+
+jobs:
+  triage:
+    runs-on: [ec2, windows, medium]
+    steps:
+    - shell: cmd
+      run: echo ${{ inputs.id }}
