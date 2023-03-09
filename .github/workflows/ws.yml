@@ -40,6 +40,10 @@ jobs:
       run: echo deploy-on-build true
       
     - name: Validate inputs
+      if: ${{ env.deploy-on-build }} == true && "${{ env.profile == '' }}"  
+      run: echo deploy-on-build true
+      
+    - name: Validate inputs
       if: ${{ env.deploy-on-build }} == true && "${{ env.profile == '' }}"
       uses: actions/github-script@v3
       with:
