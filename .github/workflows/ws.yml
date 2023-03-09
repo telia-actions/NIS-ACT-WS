@@ -22,7 +22,7 @@ jobs:
     runs-on: [ec2, windows, medium]
     
     env:
-      outputPath: \\10.75.8.30\GitHub\ 
+      outputPath: \\10.75.8.30\GitHub
       profile: ${{inputs.profile}}
       deploy-on-build: ${{ inputs.deploy-on-build }}
     
