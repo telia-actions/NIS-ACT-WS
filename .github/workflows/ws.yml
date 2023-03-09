@@ -24,6 +24,7 @@ jobs:
     env:
       outputPath: \\10.75.8.30\GitHub\ws 
       profile: ${{inputs.profile}}
+      deploy-on-build: ${{inputs.profile}}
     
     steps:
     - name: Print variable if not empty
@@ -39,7 +40,7 @@ jobs:
       run: echo deploy-on-build true
       
     - name: Validate inputs
-      if: "(${inputs.deploy-on-build} == true && ${{ env.profile = '' }})"
+      if: ${env.deploy-on-build} == true && "${{ env.profile == '' }})"
       uses: actions/github-script@v3
       with:
         script: |
