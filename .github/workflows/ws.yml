@@ -28,7 +28,7 @@ jobs:
     
     steps:
     - name: print
-      run: echo ${{secrets.BUILD_USERNAME}}
+      run: echo ${{ secrets.BUILD_USERNAME }}
       
     - name: Print variable if not empty
       if: "${{ env.profile != '' }}"
